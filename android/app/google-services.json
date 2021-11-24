@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "426298214556",
+    "project_id": "queueie",
+    "storage_bucket": "queueie.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:426298214556:android:05843efdfeeda26a5d8559",
+        "android_client_info": {
+          "package_name": "com.example.queueie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "426298214556-9hh0b9ksve41vq743tkoug639va9l9gl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTZJW6DnRC5zvhCNqicBnzG0sMRUAKXt4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "426298214556-9hh0b9ksve41vq743tkoug639va9l9gl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
