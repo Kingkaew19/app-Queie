@@ -4,6 +4,7 @@ import 'package:queueie/constants.dart';
 class RoundedButton extends StatelessWidget {
   final String text;
   final VoidCallback? press;
+  final num? sized;
   final Color color, textColor;
   final bool isLoading;
   const RoundedButton({
@@ -13,14 +14,16 @@ class RoundedButton extends StatelessWidget {
     this.color = kPrimaryColor,
     this.textColor = Colors.white,
     required this.isLoading,
+    this.sized,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
-      width: size.width * 0.8,
+      width: sized != null ? size.width * sized! : size.width * 0.8,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(29),
         child: newElevatedButton(),

@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:queueie/components/rounded_button.dart';
 import 'package:queueie/constants.dart';
 import 'package:queueie/model/profile.dart';
 import 'package:queueie/pages/profile/components/background.dart';
+import 'package:queueie/pages/welcome/welcome_screen.dart';
 
 class ProfileBody extends StatefulWidget {
   const ProfileBody({Key? key}) : super(key: key);
@@ -17,20 +20,24 @@ class _ProfileBodyState extends State<ProfileBody> {
   Users users = Users();
   String lorem =
       'สะบึม โปรดิวเซอร์โปรโมเตอร์เดชานุภาพไฮไลต์ เอาท์ โพลล์กิมจิเซอร์ไพรส์บ๊วยอัลบัม รีวิว วินไลท์ แกงค์เมจิคโกะ ใช้งานดยุคเวสต์ แทคติคเมี่ยงคำ ถูกต้องเปราะบางโง่เขลาเนอะเปียโน ไตรมาสเซาท์ ฮาร์ดเครป แคนูละตินพรีเมียร์ อินเตอร์ คาปูชิโนป๊อปดาวน์ฟรุตคีตปฏิภาณ ไอซ์';
+  final auth = FirebaseAuth.instance;
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
-    final auth = FirebaseAuth.instance.currentUser;
-    FirebaseFirestore.instance
-        .collection('shops') // collection
-        .doc(auth?.email) // document
-        .get()
-        .then((value) => {
-              setState(() {
-                users.name = value.data()?["name"];
-                users.email = value.data()?["email"];
-                users.phone = value.data()?["phone"];
-              })
-            });
+    if (users.email == null) {
+      FirebaseFirestore.instance
+          .collection('shops') // collection
+          .doc(auth.currentUser?.email) // document
+          .get()
+          .then((value) => {
+                setState(() {
+                  users.name = value.data()?["name"];
+                  users.email = value.data()?["email"];
+                  users.phone = value.data()?["phone"];
+                })
+              });
+    }
     return Background(
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
       Container(
@@ -126,6 +133,32 @@ class _ProfileBodyState extends State<ProfileBody> {
             Text(lorem, style: TextStyle(fontSize: 18)),
           ],
         ),
+      ),
+      Row(
+        children: [
+          RoundedButton(
+              text: "แก้ไข", press: () {}, isLoading: false, sized: 0.48),
+          RoundedButton(
+              text: "ออกจากระบบ",
+              press: () {
+                try {
+                  setState(() => isLoading = true);
+                  auth.signOut().then((value) => {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => WelcomeScreen()),
+                            (route) => false)
+                      });
+                } catch (err) {
+                  print(err);
+                } finally {
+                  setState(() => isLoading = false);
+                }
+              },
+              isLoading: isLoading,
+              sized: 0.48),
+        ],
       ),
     ]));
   }
