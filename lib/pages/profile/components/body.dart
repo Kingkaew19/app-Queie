@@ -7,7 +7,6 @@ import 'package:queueie/components/rounded_button.dart';
 import 'package:queueie/constants.dart';
 import 'package:queueie/model/profile.dart';
 import 'package:queueie/pages/profile/components/background.dart';
-import 'package:queueie/pages/welcome/welcome_screen.dart';
 
 class ProfileBody extends StatefulWidget {
   const ProfileBody({Key? key}) : super(key: key);
@@ -20,146 +19,108 @@ class _ProfileBodyState extends State<ProfileBody> {
   Users users = Users();
   String lorem =
       'สะบึม โปรดิวเซอร์โปรโมเตอร์เดชานุภาพไฮไลต์ เอาท์ โพลล์กิมจิเซอร์ไพรส์บ๊วยอัลบัม รีวิว วินไลท์ แกงค์เมจิคโกะ ใช้งานดยุคเวสต์ แทคติคเมี่ยงคำ ถูกต้องเปราะบางโง่เขลาเนอะเปียโน ไตรมาสเซาท์ ฮาร์ดเครป แคนูละตินพรีเมียร์ อินเตอร์ คาปูชิโนป๊อปดาวน์ฟรุตคีตปฏิภาณ ไอซ์';
-  final auth = FirebaseAuth.instance;
-  bool isLoading = false;
-
   @override
   Widget build(BuildContext context) {
-    if (users.email == null) {
-      FirebaseFirestore.instance
-          .collection('shops') // collection
-          .doc(auth.currentUser?.email) // document
-          .get()
-          .then((value) => {
-                setState(() {
-                  users.name = value.data()?["name"];
-                  users.email = value.data()?["email"];
-                  users.phone = value.data()?["phone"];
-                })
-              });
-    }
+    //final auth = FirebaseAuth.instance; //.currentUser;
+    //final Future<FirebaseApp> firebase = Firebase.initializeApp();
+    // FirebaseFirestore.instance
+    //     .collection('shops') // collection
+    //     .doc(auth?.currentUser!.email) // document
+    //     .get()
+    //     .then((value) => {
+    //           setState(() {
+    //             users.name = value.data()?["name"];
+    //             users.email = value.data()?["email"];
+    //             users.phone = value.data()?["phone"];
+    //           })
+    //         });
     return Background(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-      Container(
-        decoration: BoxDecoration(
-          color: kPrimaryLightColor,
-          borderRadius:
-              const BorderRadius.vertical(bottom: Radius.circular(34)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              blurRadius: 5,
-              offset: const Offset(0, 3), // changes position of shadow
+        child: SingleChildScrollView(
+      child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          child: const Padding(
+            padding: EdgeInsets.only(left: 28, top: 5),
+            child: CircleAvatar(
+              radius: 35,
+              backgroundImage: AssetImage('assets/images/person.png'),
             ),
-          ],
+          ),
         ),
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(left: 28, top: 10),
-              child: CircleAvatar(
-                radius: 35,
-                backgroundImage: AssetImage('assets/images/person.png'),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(left: 30, top: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${users.name}',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 24),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text('${users.email}', style: const TextStyle(fontSize: 18)),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-      Container(
+        Container(
           width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: Colors.green[100],
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                blurRadius: 5,
-                offset: const Offset(0, 3), // changes position of shadow
+          padding: EdgeInsets.all(10),
+          margin: EdgeInsets.only(top: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                width: 100,
+                child: TextField(
+                  decoration: InputDecoration(
+                      labelText: 'ชือ', fillColor: Colors.purple),
+                ),
+              ),
+              SizedBox(
+                width: 59,
+              ),
+              Container(
+                width: 100,
+                child: TextField(
+                  decoration: InputDecoration(
+                    labelText: 'เบอร์โทร',
+                  ),
+                ),
               ),
             ],
           ),
-          padding: const EdgeInsets.all(20),
-          margin: EdgeInsets.only(top: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('วันและเวลาทำการ',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-              SizedBox(
-                height: 10,
-              ),
-              Text(' 9:00am - 4:00pm', style: TextStyle(fontSize: 16)),
-            ],
-          )),
-      Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          color: kPrimaryLightColor,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              blurRadius: 5,
-              offset: const Offset(0, 3), // changes position of shadow
+        ),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.only(left: 40, right: 40),
+          margin: EdgeInsets.only(top: 10),
+          child: TextField(
+            decoration: InputDecoration(
+              labelText: 'เบอร์โทร',
             ),
-          ],
+          ),
         ),
-        padding: const EdgeInsets.all(20),
-        margin: EdgeInsets.only(top: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('คำอธิบาย',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
-            Text(lorem, style: TextStyle(fontSize: 18)),
-          ],
+        Container(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('ตำแหน่ง',
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 18,
+                        color: Colors.grey[800])),
+                SizedBox(
+                  height: 5,
+                ),
+                Image.asset('assets/images/person.png'),
+              ],
+            ),
+          ),
         ),
-      ),
-      Row(
-        children: [
-          RoundedButton(
-              text: "แก้ไข", press: () {}, isLoading: false, sized: 0.48),
-          RoundedButton(
-              text: "ออกจากระบบ",
-              press: () {
-                try {
-                  setState(() => isLoading = true);
-                  auth.signOut().then((value) => {
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WelcomeScreen()),
-                            (route) => false)
-                      });
-                } catch (err) {
-                  print(err);
-                } finally {
-                  setState(() => isLoading = false);
-                }
-              },
-              isLoading: isLoading,
-              sized: 0.48),
-        ],
-      ),
-    ]));
+        Container(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                RoundedButton(
+                  text: 'แก้ไข',
+                  press: () {},
+                  isLoading: false,
+                  sized: 0.47,
+                ),
+              ],
+            ),
+          ),
+        )
+      ]),
+    ));
   }
 }

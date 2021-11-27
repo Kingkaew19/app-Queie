@@ -33,16 +33,17 @@ class Body extends StatelessWidget {
                       MaterialPageRoute(builder: (context) => LoginScreen()));
                 }),
             RoundedButton(
-                text: "Register",
-                isLoading: false,
-                color: kPrimaryLightColor,
-                textColor: Colors.black,
-                press: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => RegisterScreen()));
-                }),
+              text: "Register",
+              isLoading: false,
+              color: kPrimaryLightColor,
+              textColor: Colors.black,
+              press: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RegisterScreen()));
+              },
+            ),
           ],
         ),
       ),

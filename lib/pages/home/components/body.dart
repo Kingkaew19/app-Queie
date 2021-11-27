@@ -37,7 +37,7 @@ class _HomeBodyState extends State<HomeBody> {
           );
         }
         print(snapshot.data!.docs[0]['name']);
-        print(snapshot.data!.docs[1]['name']);
+        //print(snapshot.data!.docs[1]['name']);
         return Background(child: Text("${snapshot.data!.docs[0]['name']}"));
       },
     );
