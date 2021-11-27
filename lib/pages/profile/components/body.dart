@@ -81,8 +81,17 @@ class _ProfileBodyState extends State<ProfileBody> {
           margin: EdgeInsets.only(top: 10),
           child: TextField(
             decoration: InputDecoration(
-              labelText: 'เบอร์โทร',
+              labelText: 'วันเวลาทำการ',
             ),
+          ),
+        ),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.only(left: 40, right: 40),
+          margin: EdgeInsets.only(top: 10),
+          child: TextField(
+            decoration:
+                InputDecoration(labelText: 'คำอธิบาย', hintText: 'คำอธิบาย'),
           ),
         ),
         Container(
@@ -114,12 +123,12 @@ class _ProfileBodyState extends State<ProfileBody> {
                   text: 'แก้ไข',
                   press: () {},
                   isLoading: false,
-                  sized: 0.47,
+                  sized: 0.4,
                 ),
               ],
             ),
           ),
-        )
+        ),
       ]),
     ));
   }
