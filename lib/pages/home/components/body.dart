@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +18,7 @@ class _HomeBodyState extends State<HomeBody> {
   Users users = Users();
   @override
   Widget build(BuildContext context) {
-    final fireAuth = FirebaseAuth.instance;
+    /* 
     fireStore
         .collection('users')
         .doc(fireAuth.currentUser?.email)
@@ -28,7 +30,19 @@ class _HomeBodyState extends State<HomeBody> {
                 users.phone = value.data()?["phone"];
                 users.userType = value.data()?["userType"];
               }),
-            });
-    return Background(child: Text("User_Type ${users.userType}"));
+            }); */
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance.collection('users').snapshots(),
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (!snapshot.hasData) {
+          return Background(
+            child: CircularProgressIndicator(),
+          );
+        }
+        print(snapshot.data!.docs[0]['name']);
+        print(snapshot.data!.docs[1]['name']);
+        return Background(child: Text("${snapshot.data!.docs[0]['name']}"));
+      },
+    );
   }
 }

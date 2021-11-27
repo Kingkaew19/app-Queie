@@ -5,7 +5,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:queueie/constants.dart';
 import 'package:queueie/model/profile.dart';
 import 'package:queueie/pages/home/components/body.dart';
-import 'package:queueie/pages/profile/components/body.dart';
 import 'package:queueie/pages/queue/components/body.dart';
 import 'package:queueie/pages/welcome/welcome_screen.dart';
 
@@ -40,10 +39,11 @@ class _HomeScreenState extends State<HomeScreen> {
     final tabs = [
       const HomeBody(),
       const QueueBody(),
-      const ProfileBody(),
     ];
+    String title = 'Home';
     return Scaffold(
         appBar: AppBar(
+          title: Text(title),
           backgroundColor: kPrimaryColor,
           actions: [
             IconButton(
@@ -104,11 +104,17 @@ class _HomeScreenState extends State<HomeScreen> {
               label: 'Home',
             ),
             BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Queue'),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
           ],
           onTap: (index) {
             setState(() {
               _currentIndex = index;
+              if (index == 1) {
+                title = 'Home';
+                print('change');
+              } else {
+                title = 'Queue';
+                print('change');
+              }
             });
           },
         ));
