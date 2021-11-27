@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:queueie/constants.dart';
 import 'package:queueie/model/profile.dart';
 import 'package:queueie/pages/home/components/body.dart';
+import 'package:queueie/pages/profile/profile_screen.dart';
 import 'package:queueie/pages/queue/components/body.dart';
 import 'package:queueie/pages/welcome/welcome_screen.dart';
 
@@ -75,7 +76,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ListTile(
               leading: const Icon(Icons.edit),
               title: const Text("Account setting"),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProfileScreen()));
+              },
             ),
             ListTile(
               leading: const Icon(Icons.logout),

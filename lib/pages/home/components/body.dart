@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:queueie/model/profile.dart';
 import 'package:queueie/pages/home/components/background.dart';
@@ -35,7 +32,7 @@ class _HomeBodyState extends State<HomeBody> {
       stream: FirebaseFirestore.instance.collection('users').snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (!snapshot.hasData) {
-          return Background(
+          return const Background(
             child: CircularProgressIndicator(),
           );
         }
