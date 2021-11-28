@@ -5,7 +5,7 @@ class Users {
   String? password;
   String? name;
   String? description;
-  String? userType;
+  String? userType; // user shop service
   String? phone;
   TimeOfDay? open;
   TimeOfDay? close;
