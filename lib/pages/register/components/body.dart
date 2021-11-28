@@ -114,7 +114,6 @@ class _BodyState extends State<Body> {
                               .toList(),
                           text: "ประเภท",
                           onChanged: (value) {
-                            print(value);
                             setState(() => chooseType = value);
                           },
                         ),

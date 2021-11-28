@@ -6,6 +6,18 @@ class QueueBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Background(child: Text("Queue page"));
+    return Background(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [Text("คิว")],
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

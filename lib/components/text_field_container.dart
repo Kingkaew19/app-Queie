@@ -5,6 +5,7 @@ import 'package:queueie/constants.dart';
 
 class RoundedInputField extends StatelessWidget {
   final String? hintText;
+  final String? val;
   final IconData? icon;
   final ValueChanged<String>? onChanged;
   final FormFieldSetter<String>? onSaved;
@@ -13,13 +14,14 @@ class RoundedInputField extends StatelessWidget {
   final List<TextInputFormatter>? format;
   const RoundedInputField({
     Key? key,
-    this.hintText,
-    this.icon,
+    required this.hintText,
+    required this.icon,
     this.onChanged,
     this.inputType,
     this.onSaved,
     required this.validator,
     this.format,
+    this.val,
   }) : super(key: key);
 
   @override
@@ -29,6 +31,7 @@ class RoundedInputField extends StatelessWidget {
         keyboardType: inputType,
         inputFormatters: format,
         onChanged: onChanged,
+        initialValue: val,
         onSaved: onSaved,
         validator: validator,
         decoration: InputDecoration(
@@ -58,7 +61,9 @@ class TextFieldContainer extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       width: size.width * 0.8,
       decoration: BoxDecoration(
-          color: kPrimaryLightColor, borderRadius: BorderRadius.circular(29)),
+          color: kPrimaryLightColor,
+          borderRadius: BorderRadius.circular(29),
+          border: Border.all()),
       child: child,
     );
   }
