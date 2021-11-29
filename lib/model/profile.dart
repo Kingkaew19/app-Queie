@@ -9,6 +9,7 @@ class Users {
   String? phone;
   TimeOfDay? open;
   TimeOfDay? close;
+  String? category;
   Users(
       {this.email,
       this.password,
@@ -17,5 +18,6 @@ class Users {
       this.userType,
       this.phone,
       this.open,
-      this.close});
+      this.close,
+      this.category});
 }

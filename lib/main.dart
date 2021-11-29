@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:queueie/constants.dart';
-import 'package:queueie/pages/profile/components/body.dart';
 import 'package:queueie/pages/welcome/welcome_screen.dart';
 
 void main() => runApp(const MyApp());

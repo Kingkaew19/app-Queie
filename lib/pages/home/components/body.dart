@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:queueie/model/profile.dart';
 import 'package:queueie/pages/home/components/background.dart';
 
 class HomeBody extends StatefulWidget {
@@ -12,37 +10,37 @@ class HomeBody extends StatefulWidget {
 }
 
 class _HomeBodyState extends State<HomeBody> {
-  final FirebaseFirestore fireStore = FirebaseFirestore.instance;
-  Users users = Users();
+  // final Query fireStore =
+  //     FirebaseFirestore.instance.collection("users").orderBy('userType');
+
+  //Users users = Users();
   @override
   Widget build(BuildContext context) {
-    /* 
-    fireStore
-        .collection('users')
-        .doc(fireAuth.currentUser?.email)
-        .get()
-        .then((value) => {
-              setState(() {
-                users.email = value.data()?["email"];
-                users.name = value.data()?["name"];
-                users.phone = value.data()?["phone"];
-                users.userType = value.data()?["userType"];
-              }),
-            }); */
-    return StreamBuilder(
+    return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('users')
-          .doc(FirebaseAuth.instance.currentUser?.email)
+          .orderBy('userType')
           .snapshots(),
-      builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (!snapshot.hasData) {
           return const Background(
             child: CircularProgressIndicator(),
           );
         }
-        print(snapshot.data);
-        //print(snapshot.data!.docs[1]['name']);
-        return Background(child: Text("${snapshot.data!['name']}"));
+
+        return Background(
+            child: ListView(
+                children: snapshot.data!.docs.map((doc) {
+          return Card(
+              color: Colors.purple[50],
+              child: ListTile(
+                leading: Image.asset(
+                  'assets/images/person.png',
+                ),
+                title: Text(doc['name']),
+                //subtitle: Text(doc['category']),
+              ));
+        }).toList()));
       },
     );
   }

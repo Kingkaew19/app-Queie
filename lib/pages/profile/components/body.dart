@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -76,6 +75,16 @@ class _ProfileBodyState extends State<ProfileBody> {
                         setState(() => users.phone = value);
                       },
                     ),
+                    RoundedInputField(
+                      hintText: "หมวดหมู่",
+                      val: snapshot.data!['category'],
+                      icon: Icons.category,
+                      validator:
+                          RequiredValidator(errorText: "กรุณาใส่หมวดหมู่"),
+                      onSaved: (value) {
+                        setState(() => users.category = value);
+                      },
+                    ),
                     snapshot.data?['open'] == ""
                         ? const Text("ยังไม่ได้เลือกเวลาเปิด-ปิด",
                             style: TextStyle(fontSize: 18))
@@ -134,6 +143,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                               "phone": users.phone,
                               "open": users.open?.format(context),
                               "close": users.close?.format(context),
+                              "category": users.category
                             }).then((value) => {
                                       Fluttertoast.showToast(
                                           msg: "แก้ไขสำเร็จ",

@@ -7,7 +7,7 @@ class BodyNotification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     /* https://api.flutter.dev/flutter/material/ListTile-class.html */
-Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     return Background(
         child: Column(
       children: [
@@ -17,7 +17,7 @@ Size size = MediaQuery.of(context).size;
             children: [
               SizedBox(
                 width: size.width * 0.95,
-                  height: size.height * 0.10,
+                height: size.height * 0.10,
                 child: Card(
                   child: ListTile(
                     leading: ConstrainedBox(
