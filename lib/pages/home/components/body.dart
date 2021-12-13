@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:queueie/pages/detailsshop/components/body.dart';
+import 'package:queueie/pages/detailsshop/detailsshop_screen.dart';
 import 'package:queueie/pages/home/components/background.dart';
 
 class HomeBody extends StatefulWidget {
@@ -38,6 +40,7 @@ class _HomeBodyState extends State<HomeBody> {
                   'assets/images/person.png',
                 ),
                 title: Text(doc['name']),
+                onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const Detailsshop()));},
                 //subtitle: Text(doc['category']),
               ));
         }).toList()));

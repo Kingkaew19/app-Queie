@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:queueie/pages/notification/components/background.dart';
 
+
 class BodyNotification extends StatelessWidget {
   const BodyNotification({Key? key}) : super(key: key);
 
@@ -39,7 +40,9 @@ class BodyNotification extends StatelessWidget {
               ),
             ],
           ),
-        )
+        ),
+        
+       
       ],
     ));
   }

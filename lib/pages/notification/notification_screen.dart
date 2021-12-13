@@ -9,10 +9,10 @@ class NotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Notification"),
+        title: const Text("Notification"),
         backgroundColor: kPrimaryColor,
       ),
-      body: BodyNotification(),
+      body: const BodyNotification(),
     );
   }
 }
