@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:queueie/pages/detailsshop/components/body.dart';
 import 'package:queueie/pages/detailsshop/detailsshop_screen.dart';
 import 'package:queueie/pages/home/components/background.dart';
+import 'package:queueie/pages/queuenumber/components/body.dart';
+//import 'package:queueie/pages/queuenumber/queuenumber_screen.dart';
 
 class HomeBody extends StatefulWidget {
   const HomeBody({Key? key}) : super(key: key);
@@ -41,7 +43,13 @@ class _HomeBodyState extends State<HomeBody> {
                 ),
                 title: Text(doc['name']),
                 onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const Detailsshop()));},
-                //subtitle: Text(doc['category']),
+
+                //   Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //           builder: (context) => Detailsshop));
+                // },
+                subtitle: Text(doc['category']),
               ));
         }).toList()));
       },
