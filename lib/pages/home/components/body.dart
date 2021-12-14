@@ -42,7 +42,12 @@ class _HomeBodyState extends State<HomeBody> {
                   'assets/images/person.png',
                 ),
                 title: Text(doc['name']),
-                onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const Detailsshop()));},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Detailsshop()));
+                },
 
                 //   Navigator.push(
                 //       context,
