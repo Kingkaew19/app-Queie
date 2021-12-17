@@ -22,13 +22,6 @@ class _ProfileBodyState extends State<ProfileBody> {
   final updateProfile = GlobalKey<FormState>();
   Users users = Users();
   bool isLoading = false;
-  //String chooseCategory = 'หมวดหมู่';
-  // List<String> category = [
-  //   'ร้านกาแฟ',
-  //   'ห้องสมุด',
-  //   'ศูนย์บริการ',
-  //   'ร้านถ่ายเอกสาร'
-  // ];
 
   @override
   Widget build(BuildContext context) {

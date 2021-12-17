@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -9,8 +11,8 @@ import 'package:queueie/components/rounded_password_field.dart';
 import 'package:queueie/components/text_field_container.dart';
 import 'package:queueie/constants.dart';
 import 'package:queueie/model/profile.dart';
-import 'package:queueie/pages/login/components/background.dart';
 import 'package:queueie/pages/home/home_screen.dart';
+import 'package:queueie/pages/login/components/background.dart';
 import 'package:queueie/pages/queuenumber/components/body.dart';
 
 class Body extends StatefulWidget {
@@ -21,10 +23,11 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  //final fireAuth = FirebaseAuth.instance;
+  //final FirebaseFirestore fireStore = FirebaseFirestore.instance;
+
   final formLogin = GlobalKey<FormState>();
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
-  final fireAuth = FirebaseAuth.instance;
-  final FirebaseFirestore fireStore = FirebaseFirestore.instance;
 
   Users users = Users();
   bool isLoading = false;
@@ -96,16 +99,29 @@ class _BodyState extends State<Body> {
                                               msg: "Login สำเร็จ",
                                               gravity: ToastGravity.CENTER),
                                           formLogin.currentState!.reset(),
+                                          //print(users.userType),
+                                          // if (users.userType == "user")
+                                          //   {
+                                          //     Navigator.push(
+                                          //         context,
+                                          //         MaterialPageRoute(
+                                          //             builder: (context) =>
+                                          //                 const HomeScreen())),
+                                          //   }
+                                          // else
+                                          //   {
+                                          //     Navigator.pushAndRemoveUntil(
+                                          //         context,
+                                          //         MaterialPageRoute(
+                                          //             builder: (context) =>
+                                          //                 const Number()),
+                                          //         (route) => false),
+                                          //   }
 
-                                          // Navigator.pushAndRemoveUntil(
-                                          //     context,
-                                          //     MaterialPageRoute(
-                                          //         builder: (context) =>
-                                          //             const HomeScreen()),
-                                          //     (route) => false),
-                                          fireStore
+                                          FirebaseFirestore.instance
                                               .collection('users')
-                                              .doc(fireAuth.currentUser?.email)
+                                              .doc(FirebaseAuth
+                                                  .instance.currentUser?.email)
                                               .get()
                                               .then((value) => {
                                                     setState(() {
@@ -119,15 +135,14 @@ class _BodyState extends State<Body> {
                                                           .data()?["userType"];
                                                     }),
                                                     if (users.userType ==
-                                                        'user')
+                                                        "user")
                                                       {
-                                                        Navigator.pushAndRemoveUntil(
+                                                        Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
                                                                 builder:
                                                                     (context) =>
-                                                                        const HomeScreen()),
-                                                            (route) => false),
+                                                                        const HomeScreen())),
                                                       }
                                                     else
                                                       {

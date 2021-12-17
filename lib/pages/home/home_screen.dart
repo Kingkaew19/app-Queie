@@ -6,7 +6,7 @@ import 'package:queueie/constants.dart';
 import 'package:queueie/model/profile.dart';
 import 'package:queueie/pages/home/components/body.dart';
 import 'package:queueie/pages/notification/notification_screen.dart';
-import 'package:queueie/pages/profile/profile_screen.dart';
+import 'package:queueie/pages/profileuser/profileuser_screen.dart';
 import 'package:queueie/pages/queue/components/body.dart';
 import 'package:queueie/pages/welcome/welcome_screen.dart';
 
@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const ProfileScreen()));
+                        builder: (context) => const ProfileuserScreen()));
               },
             ),
             ListTile(

@@ -9,7 +9,6 @@ import 'package:queueie/model/profile.dart';
 import 'package:queueie/pages/detailsshop/components/background.dart';
 import 'package:queueie/pages/home/home_screen.dart';
 
-// ignore: camel_case_types
 class bodyProfileuser extends StatefulWidget {
   const bodyProfileuser({Key? key}) : super(key: key);
 
@@ -17,11 +16,11 @@ class bodyProfileuser extends StatefulWidget {
   _bodyProfileuserState createState() => _bodyProfileuserState();
 }
 
-// ignore: camel_case_types
 class _bodyProfileuserState extends State<bodyProfileuser> {
   final updateProfileuser = GlobalKey<FormState>();
   Users users = Users();
   bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -40,7 +39,7 @@ class _bodyProfileuserState extends State<bodyProfileuser> {
             key: updateProfileuser,
             child: SingleChildScrollView(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
                     padding: const EdgeInsets.symmetric(
