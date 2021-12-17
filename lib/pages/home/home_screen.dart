@@ -25,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    /* const userType = fireStore.collection('users').where('') */
     fireStore
         .collection('users')
         .doc(fireAuth.currentUser?.email)
@@ -53,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => NotificationScreen()));
+                          builder: (context) => const NotificationScreen()));
                 },
                 icon: const Icon(Icons.notifications, color: Colors.white))
           ],
@@ -83,8 +82,10 @@ class _HomeScreenState extends State<HomeScreen> {
               leading: const Icon(Icons.edit),
               title: const Text("Account setting"),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ProfileScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ProfileScreen()));
               },
             ),
             ListTile(

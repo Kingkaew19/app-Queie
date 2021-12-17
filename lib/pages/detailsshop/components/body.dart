@@ -1,10 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:queueie/model/profile.dart';
 import 'package:queueie/pages/detailsshop/components/background.dart';
-import 'package:queueie/pages/detailsshop/detailsshop_screen.dart';
+import 'package:queueie/pages/queue/components/body.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Details extends StatelessWidget {
+class Details extends StatefulWidget {
   const Details({Key? key}) : super(key: key);
+
+  @override
+  State<Details> createState() => _DetailsState();
+}
+
+class _DetailsState extends State<Details> {
+  final fireAuth = FirebaseAuth.instance;
+  final FirebaseFirestore fireStore = FirebaseFirestore.instance;
+  Users users = Users();
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +40,7 @@ class Details extends StatelessWidget {
                 child: Column(
                   children: [
                     const Text(
-                      "ศูนย์บริการนักศึกษา",
+                      'name',
                       style: TextStyle(fontSize: 25),
                     ),
                     const SizedBox(
@@ -124,7 +136,8 @@ class Details extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
-                      child: const Text("โทร", style: TextStyle(fontSize: 20,color: Colors.black)),
+                      child: const Text("โทร",
+                          style: TextStyle(fontSize: 20, color: Colors.black)),
                       onPressed: () async {
                         const Url = 'tel:+ 089 415 0834';
                         if (await canLaunch(Url)) {
@@ -133,10 +146,10 @@ class Details extends StatelessWidget {
                           throw 'Could not launch $Url';
                         }
 
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return const Detailsshop();
-                        }));
+                        // Navigator.push(context,
+                        //     MaterialPageRoute(builder: (context) {
+                        //   return const Detailsshop();
+                        // }));
                       }),
                 ),
                 const SizedBox(
@@ -151,12 +164,12 @@ class Details extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
-                      child:
-                          const Text("จองคิว", style: TextStyle(fontSize: 20, color: Colors.black)),
+                      child: const Text("จองคิว",
+                          style: TextStyle(fontSize: 20, color: Colors.black)),
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return const Detailsshop();
+                          return const QueueBody();
                         }));
                       }),
                 ),

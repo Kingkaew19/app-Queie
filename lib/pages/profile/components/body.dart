@@ -22,8 +22,14 @@ class _ProfileBodyState extends State<ProfileBody> {
   final updateProfile = GlobalKey<FormState>();
   Users users = Users();
   bool isLoading = false;
-  String lorem =
-      'สะบึม โปรดิวเซอร์โปรโมเตอร์เดชานุภาพไฮไลต์ เอาท์ โพลล์กิมจิเซอร์ไพรส์บ๊วยอัลบัม รีวิว วินไลท์ แกงค์เมจิคโกะ ใช้งานดยุคเวสต์ แทคติคเมี่ยงคำ ถูกต้องเปราะบางโง่เขลาเนอะเปียโน ไตรมาสเซาท์ ฮาร์ดเครป แคนูละตินพรีเมียร์ อินเตอร์ คาปูชิโนป๊อปดาวน์ฟรุตคีตปฏิภาณ ไอซ์';
+  //String chooseCategory = 'หมวดหมู่';
+  // List<String> category = [
+  //   'ร้านกาแฟ',
+  //   'ห้องสมุด',
+  //   'ศูนย์บริการ',
+  //   'ร้านถ่ายเอกสาร'
+  // ];
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -90,7 +96,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                             style: TextStyle(fontSize: 18))
                         : Text(
                             "เวลาเดิม ${snapshot.data?['open']} - ${snapshot.data?['close']}",
-                            style: TextStyle(fontSize: 18)),
+                            style: const TextStyle(fontSize: 18)),
                     RoundedTimeRange(
                       text: users.open == null && users.close == null
                           ? "แก้ไขเวลาใหม่"
@@ -104,24 +110,33 @@ class _ProfileBodyState extends State<ProfileBody> {
                         });
                       },
                     ),
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 5),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('ตำแหน่ง',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 18,
-                                    color: Colors.grey[800])),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Image.asset('assets/images/person.png'),
-                          ],
-                        ),
+                    RoundedInputField(
+                      hintText: "คำอธิบาย",
+                      val: snapshot.data!['description'],
+                      icon: Icons.description,
+                      maxLines: 5,
+                      validator:
+                          RequiredValidator(errorText: "กรุณาใส่คำอธิบาย"),
+                      onSaved: (value) {
+                        setState(() => users.description = value);
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 5),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('ตำแหน่ง',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 18,
+                                  color: Colors.grey[800])),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Image.asset('assets/images/person.png'),
+                        ],
                       ),
                     ),
                     RoundedButton(
@@ -141,6 +156,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                                 .update({
                               "name": users.name,
                               "phone": users.phone,
+                              "description": users.description,
                               "open": users.open?.format(context),
                               "close": users.close?.format(context),
                               "category": users.category

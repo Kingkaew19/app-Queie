@@ -12,17 +12,19 @@ class RoundedInputField extends StatelessWidget {
   final TextInputType? inputType;
   final FieldValidator validator;
   final List<TextInputFormatter>? format;
-  const RoundedInputField({
-    Key? key,
-    required this.hintText,
-    required this.icon,
-    this.onChanged,
-    this.inputType,
-    this.onSaved,
-    required this.validator,
-    this.format,
-    this.val,
-  }) : super(key: key);
+  final int? maxLines;
+  const RoundedInputField(
+      {Key? key,
+      required this.hintText,
+      required this.icon,
+      this.onChanged,
+      this.inputType,
+      this.onSaved,
+      required this.validator,
+      this.format,
+      this.val,
+      this.maxLines})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,7 @@ class RoundedInputField extends StatelessWidget {
         initialValue: val,
         onSaved: onSaved,
         validator: validator,
+        maxLines: maxLines != null ? 1 * maxLines! : 1,
         decoration: InputDecoration(
             icon: Icon(
               icon,

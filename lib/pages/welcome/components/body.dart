@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 
 import 'package:queueie/constants.dart';
 import 'package:queueie/components/rounded_button.dart';
@@ -23,14 +21,16 @@ class Body extends StatelessWidget {
               "assets/images/logo.png",
               height: size.height * 0.45,
             ),
-            Text("Welcome to Queueie", style: TextStyle(fontSize: 18)),
+            const Text("Welcome to Queueie", style: TextStyle(fontSize: 18)),
             SizedBox(height: size.height * 0.05),
             RoundedButton(
                 text: "Login",
                 isLoading: false,
                 press: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginScreen()));
                 }),
             RoundedButton(
               text: "Register",

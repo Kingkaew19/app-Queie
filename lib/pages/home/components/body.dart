@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:queueie/pages/detailsshop/components/body.dart';
 import 'package:queueie/pages/detailsshop/detailsshop_screen.dart';
 import 'package:queueie/pages/home/components/background.dart';
-import 'package:queueie/pages/queuenumber/components/body.dart';
-//import 'package:queueie/pages/queuenumber/queuenumber_screen.dart';
 
 class HomeBody extends StatefulWidget {
   const HomeBody({Key? key}) : super(key: key);
@@ -14,16 +12,14 @@ class HomeBody extends StatefulWidget {
 }
 
 class _HomeBodyState extends State<HomeBody> {
-  // final Query fireStore =
-  //     FirebaseFirestore.instance.collection("users").orderBy('userType');
-
-  //Users users = Users();
+  final fireAuth = FirebaseAuth.instance;
+  final FirebaseFirestore fireStore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('users')
-          .orderBy('userType')
+          .where('userType', isEqualTo: 'shop')
           .snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (!snapshot.hasData) {
@@ -48,12 +44,6 @@ class _HomeBodyState extends State<HomeBody> {
                       MaterialPageRoute(
                           builder: (context) => const Detailsshop()));
                 },
-
-                //   Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //           builder: (context) => Detailsshop));
-                // },
                 subtitle: Text(doc['category']),
               ));
         }).toList()));

@@ -8,6 +8,7 @@ class Background extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
+    // ignore: sized_box_for_whitespace
     return Container(
       height: size.height,
       width: double.infinity,

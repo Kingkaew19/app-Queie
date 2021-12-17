@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:queueie/constants.dart';
 import 'package:queueie/pages/queue/components/body.dart';
 
 class QueueScreen extends StatelessWidget {
@@ -9,6 +10,7 @@ class QueueScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Queue page"),
+        backgroundColor: kPrimaryColor,
       ),
       body: const QueueBody(),
     );

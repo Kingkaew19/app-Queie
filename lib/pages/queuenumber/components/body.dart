@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:queueie/pages/home/components/background.dart';
 
-class Number extends StatelessWidget {
+class Number extends StatefulWidget {
   const Number({Key? key}) : super(key: key);
 
+  @override
+  State<Number> createState() => _NumberState();
+}
+
+class _NumberState extends State<Number> {
   @override
   Widget build(BuildContext context) {
     return Background(

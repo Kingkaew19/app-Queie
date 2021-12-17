@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:queueie/constants.dart';
-import 'package:time_range_picker/time_range_picker.dart';
 
 class RoundedTimeRange extends StatelessWidget {
   final VoidCallback? onPress;
@@ -9,6 +8,7 @@ class RoundedTimeRange extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     Size size = MediaQuery.of(context).size;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
@@ -23,6 +23,7 @@ class RoundedTimeRange extends StatelessWidget {
   }
 }
 
+// ignore: camel_case_types
 class onTimePicker extends StatelessWidget {
   final VoidCallback? onPress;
   final String? text;
@@ -35,8 +36,8 @@ class onTimePicker extends StatelessWidget {
       child: text != null
           ? Text(text!,
               style: const TextStyle(fontSize: 18, color: Colors.white))
-          : Text("เลือกเวลาเปิด-ปิด",
-              style: const TextStyle(fontSize: 18, color: Colors.white)),
+          : const Text("เลือกเวลาเปิด-ปิด",
+              style: TextStyle(fontSize: 18, color: Colors.white)),
       onPressed: onPress,
       style: ElevatedButton.styleFrom(
           primary: kPrimaryColor,

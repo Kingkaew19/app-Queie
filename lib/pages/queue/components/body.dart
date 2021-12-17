@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:queueie/components/rounded_button.dart';
 import 'package:queueie/pages/queue/components/background.dart';
+import 'package:queueie/pages/queuenumber/queuenumber_screen.dart';
 
 class QueueBody extends StatelessWidget {
   const QueueBody({Key? key}) : super(key: key);
@@ -16,7 +16,8 @@ class QueueBody extends StatelessWidget {
         Container(
           padding: const EdgeInsets.only(top: 20),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            //crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text("หมายเลขคิวของคุณ", style: TextStyle(fontSize: 20)),
               Card(
@@ -53,7 +54,14 @@ class QueueBody extends StatelessWidget {
             ],
           ),
         ),
-        RoundedButton(text: "ยกเลิกการจองคิว", press: () {}, isLoading: false)
+        RoundedButton(
+            text: "ยกเลิกการจองคิว",
+            press: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const Queuenumber();
+              }));
+            },
+            isLoading: false)
       ],
     ));
   }

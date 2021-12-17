@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:queueie/constants.dart';
 import 'package:queueie/model/profile.dart';
 import 'package:queueie/pages/login/components/background.dart';
 import 'package:queueie/pages/home/home_screen.dart';
+import 'package:queueie/pages/queuenumber/components/body.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -21,6 +23,8 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   final formLogin = GlobalKey<FormState>();
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
+  final fireAuth = FirebaseAuth.instance;
+  final FirebaseFirestore fireStore = FirebaseFirestore.instance;
 
   Users users = Users();
   bool isLoading = false;
@@ -92,12 +96,50 @@ class _BodyState extends State<Body> {
                                               msg: "Login สำเร็จ",
                                               gravity: ToastGravity.CENTER),
                                           formLogin.currentState!.reset(),
-                                          Navigator.pushAndRemoveUntil(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const HomeScreen()),
-                                              (route) => false),
+
+                                          // Navigator.pushAndRemoveUntil(
+                                          //     context,
+                                          //     MaterialPageRoute(
+                                          //         builder: (context) =>
+                                          //             const HomeScreen()),
+                                          //     (route) => false),
+                                          fireStore
+                                              .collection('users')
+                                              .doc(fireAuth.currentUser?.email)
+                                              .get()
+                                              .then((value) => {
+                                                    setState(() {
+                                                      users.email = value
+                                                          .data()?["email"];
+                                                      users.name =
+                                                          value.data()?["name"];
+                                                      users.phone = value
+                                                          .data()?["phone"];
+                                                      users.userType = value
+                                                          .data()?["userType"];
+                                                    }),
+                                                    if (users.userType ==
+                                                        'user')
+                                                      {
+                                                        Navigator.pushAndRemoveUntil(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        const HomeScreen()),
+                                                            (route) => false),
+                                                      }
+                                                    else
+                                                      {
+                                                        Navigator.pushAndRemoveUntil(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        const Number()),
+                                                            (route) => false),
+                                                      }
+                                                  })
                                         });
                               } on FirebaseAuthException catch (err) {
                                 if (err.code == "user-not-found") {
