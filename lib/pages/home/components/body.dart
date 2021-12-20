@@ -42,7 +42,7 @@ class _HomeBodyState extends State<HomeBody> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const Detailsshop()));
+                          builder: (context) => Detailsshop(doc: doc)));
                 },
                 subtitle: Text(doc['category']),
               ));

@@ -7,8 +7,9 @@ import 'package:queueie/pages/queue/components/body.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Details extends StatefulWidget {
-  const Details({Key? key}) : super(key: key);
-
+  const Details({Key? key, required this.doc}) : super(key: key);
+  //final String name;
+  final QueryDocumentSnapshot<Object?> doc;
   @override
   State<Details> createState() => _DetailsState();
 }
@@ -39,9 +40,9 @@ class _DetailsState extends State<Details> {
                 padding: const EdgeInsets.only(top: 20),
                 child: Column(
                   children: [
-                    const Text(
-                      'name',
-                      style: TextStyle(fontSize: 25),
+                    Text(
+                      widget.doc['name'],
+                      style: const TextStyle(fontSize: 25),
                     ),
                     const SizedBox(
                       height: 10,
@@ -52,8 +53,8 @@ class _DetailsState extends State<Details> {
                           borderRadius: BorderRadius.circular(10)),
                       height: 40,
                       width: 210,
-                      child: const Center(
-                        child: Text("089-415-0834",
+                      child: Center(
+                        child: Text(widget.doc['phone'],
                             style: TextStyle(fontSize: 20)),
                       ),
                     ),
@@ -72,11 +73,18 @@ class _DetailsState extends State<Details> {
                     borderRadius: BorderRadius.circular(10)),
                 height: 40,
                 width: 280,
-                child: const Center(
-                    child: Text(
-                  "วันจันทร์ เปิด 09.00-16.30",
-                  style: TextStyle(fontSize: 20),
-                )),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      widget.doc['open'],
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                    const Text("-", style: TextStyle(fontSize: 20)),
+                    Text(widget.doc['close'],
+                        style: const TextStyle(fontSize: 20))
+                  ],
+                ),
               ),
             ],
           ),
@@ -93,11 +101,11 @@ class _DetailsState extends State<Details> {
                       borderRadius: BorderRadius.circular(5)),
                   height: 80,
                   width: 350,
-                  child: const Padding(
-                    padding: EdgeInsets.all(5.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
                     child: Text(
-                      "ทางเรามีให้บริการจองคิวหลายฝ่าย เช่น ฝ่ายทะเบียน ฝ่ายการเงิน ฝ่ายทุนการศึกษา",
-                      style: TextStyle(fontSize: 19),
+                      widget.doc['description'],
+                      style: const TextStyle(fontSize: 19),
                     ),
                   ),
                 )),
@@ -145,11 +153,6 @@ class _DetailsState extends State<Details> {
                         } else {
                           throw 'Could not launch $Url';
                         }
-
-                        // Navigator.push(context,
-                        //     MaterialPageRoute(builder: (context) {
-                        //   return const Detailsshop();
-                        // }));
                       }),
                 ),
                 const SizedBox(
