@@ -8,6 +8,7 @@ import 'package:queueie/pages/home/components/body.dart';
 import 'package:queueie/pages/notification/notification_screen.dart';
 import 'package:queueie/pages/profileuser/profileuser_screen.dart';
 import 'package:queueie/pages/queue/components/body.dart';
+import 'package:queueie/pages/queue/queue_screen.dart';
 import 'package:queueie/pages/welcome/welcome_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -39,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
             });
     final tabs = [
       const HomeBody(),
-      const QueueBody(),
+      QueueScreen(dataQueue: {},),
     ];
     String title = 'Home';
     return Scaffold(

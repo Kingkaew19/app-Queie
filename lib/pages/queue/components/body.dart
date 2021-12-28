@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:queueie/components/rounded_button.dart';
-import 'package:queueie/pages/profileuser/profileuser_screen.dart';
 import 'package:queueie/pages/queue/components/background.dart';
+import 'package:queueie/pages/queuenumber/queuenumber_screen.dart';
 
-class QueueBody extends StatelessWidget {
-  const QueueBody({Key? key}) : super(key: key);
+class QueueBody extends StatefulWidget {
+  const QueueBody({Key? key, required this.dataQueue}) : super(key: key);
+   final Map<String, dynamic> dataQueue;
+  @override
+  State<QueueBody> createState() => _QueueBodyState();
+}
 
+class _QueueBodyState extends State<QueueBody> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -24,9 +29,9 @@ class QueueBody extends StatelessWidget {
                 child: SizedBox(
                   width: size.width * 0.65,
                   height: size.height * 0.20,
-                  child: const Center(
+                  child:  Center(
                       child: Text(
-                    "19",
+                    widget.dataQueue['number'],
                     style: TextStyle(fontSize: 60),
                   )),
                 ),
@@ -58,7 +63,7 @@ class QueueBody extends StatelessWidget {
             text: "ยกเลิกการจองคิว",
             press: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const ProfileuserScreen();
+                return const Queuenumber();
               }));
             },
             isLoading: false)
