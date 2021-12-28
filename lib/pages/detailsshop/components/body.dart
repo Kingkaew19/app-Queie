@@ -19,6 +19,8 @@ class _DetailsState extends State<Details> {
   final FirebaseFirestore fireStore = FirebaseFirestore.instance;
   Users users = Users();
 
+  
+
   @override
   Widget build(BuildContext context) {
     return Background(
@@ -172,7 +174,7 @@ class _DetailsState extends State<Details> {
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return const QueueBody();
+                          return const QueueBody(dataQueue: {},);
                         }));
                       }),
                 ),
