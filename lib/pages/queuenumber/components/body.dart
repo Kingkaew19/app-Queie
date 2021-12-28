@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:queueie/pages/home/components/background.dart';
+import 'package:queueie/pages/profile/profile_screen.dart';
 
 class Number extends StatefulWidget {
   const Number({Key? key}) : super(key: key);
@@ -28,7 +29,13 @@ class _NumberState extends State<Number> {
                         subtitle: const Text('002'),
                         trailing: TextButton(
                             child: const Text('ถัดไป'),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ProfileScreen()));
+                            },
                             style: TextButton.styleFrom(
                               backgroundColor: Colors.purple[100],
                               primary: Colors.black,

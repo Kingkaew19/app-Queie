@@ -10,6 +10,7 @@ class Users {
   TimeOfDay? open;
   TimeOfDay? close;
   String? category;
+  String? urlImage;
   Users(
       {this.email,
       this.password,
@@ -19,5 +20,6 @@ class Users {
       this.phone,
       this.open,
       this.close,
-      this.category});
+      this.category,
+      this.urlImage});
 }

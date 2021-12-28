@@ -72,14 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             UserAccountsDrawerHeader(
                 currentAccountPicture: CircleAvatar(
-                  child: ClipOval(
-                    child: Image.asset(
-                      "assets/images/person.png",
-                      width: 80,
-                      height: 80,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  backgroundImage: NetworkImage('${users.urlImage}'),
                 ),
                 accountName: Text(
                   '${users.name}',
@@ -209,8 +202,10 @@ class CustomSearchDelegate extends SearchDelegate {
         return ListTile(
             title: Text(result),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ProfileuserScreen()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProfileuserScreen()));
             });
       },
     );

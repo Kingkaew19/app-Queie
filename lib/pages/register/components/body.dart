@@ -10,6 +10,7 @@ import 'package:queueie/components/rounded_password_field.dart';
 import 'package:queueie/components/text_field_container.dart';
 import 'package:queueie/constants.dart';
 import 'package:queueie/model/profile.dart';
+import 'package:queueie/pages/queuenumber/queuenumber_screen.dart';
 import 'package:queueie/pages/register/components/background.dart';
 import 'package:queueie/pages/home/home_screen.dart';
 
@@ -27,8 +28,9 @@ class _BodyState extends State<Body> {
   Users users = Users();
 
   bool isLoading = false;
-  String chooseType = 'ผู้ใช้งานทั่วไป';
-  List<String> type = ['ผู้ใช้งานทั่วไป', 'ร้านค้าและบริการ'];
+  String chooseType = 'Choose Type';
+  List<String> type = ['Choose Type', 'shop', 'user'];
+  //final snackbar = const SnackBar(content: Text('Please choose type!!!'));
 
   @override
   Widget build(BuildContext context) {
@@ -111,9 +113,11 @@ class _BodyState extends State<Body> {
                               .map((item) => DropdownMenuItem(
                                   child: Text(item), value: item))
                               .toList(),
-                          text: "ประเภท",
+                          hint: "ประเภท",
                           onChanged: (value) {
+                            print(chooseType);
                             setState(() => chooseType = value);
+                            print(chooseType);
                           },
                         ),
                         RoundedButton(
@@ -123,54 +127,85 @@ class _BodyState extends State<Body> {
                               if (formRegister.currentState!.validate()) {
                                 formRegister.currentState!.save();
                                 try {
+                                  final snackbar = const SnackBar(
+                                      content: Text('Please choose type!!!'));
                                   setState(() => isLoading = true);
                                   await FirebaseAuth.instance
                                       .createUserWithEmailAndPassword(
                                           email: users.email!,
                                           password: users.password!)
                                       .then((value) => {
-                                            if (chooseType == 'ผู้ใช้งานทั่วไป')
+                                            if (chooseType == 'Choose Type')
+                                              {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(snackbar),
+                                                print(chooseType)
+                                              }
+                                            else if (chooseType == 'user')
                                               {
                                                 FirebaseFirestore.instance
                                                     .collection('users')
                                                     .doc(users.email)
                                                     .set({
-                                                  "name": users.name,
-                                                  "email": users.email,
-                                                  "phone": users.phone,
-                                                }).catchError((error) =>
+                                                      "name": users.name,
+                                                      "email": users.email,
+                                                      "phone": users.phone,
+                                                      "userType": chooseType
+                                                    })
+                                                    .then(
+                                                      (value) => Navigator
+                                                          .pushAndRemoveUntil(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          const HomeScreen()),
+                                                              (route) => false),
+                                                    )
+                                                    .catchError((error) =>
                                                         Fluttertoast.showToast(
                                                             msg: error,
                                                             gravity:
                                                                 ToastGravity
                                                                     .CENTER))
                                               }
-                                            else if (chooseType ==
-                                                "ร้านค้าและบริการ")
+                                            else if (chooseType == 'shop')
                                               {
                                                 FirebaseFirestore.instance
                                                     .collection('shops')
                                                     .doc(users.email)
                                                     .set({
-                                                  "name": users.name,
-                                                  "email": users.email,
-                                                  "phone": users.phone,
-                                                }).catchError((error) =>
+                                                      "name": users.name,
+                                                      "email": users.email,
+                                                      "phone": users.phone,
+                                                      "userType": chooseType
+                                                    })
+                                                    .then(
+                                                      (value) => Navigator
+                                                          .pushAndRemoveUntil(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          const Queuenumber()),
+                                                              (route) => false),
+                                                    )
+                                                    .catchError((error) =>
                                                         Fluttertoast.showToast(
                                                             msg: error,
                                                             gravity:
                                                                 ToastGravity
                                                                     .CENTER))
                                               },
-                                            Fluttertoast.showToast(
-                                                msg: "สร้างบัญชีสำเร็จ",
-                                                gravity: ToastGravity.TOP),
-                                            Navigator.pushAndRemoveUntil(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const HomeScreen()),
-                                                (route) => false),
+                                            // Fluttertoast.showToast(
+                                            //     msg: "สร้างบัญชีสำเร็จ",
+                                            //     gravity: ToastGravity.TOP),
+                                            // Navigator.pushAndRemoveUntil(
+                                            //     context,
+                                            //     MaterialPageRoute(
+                                            //         builder: (context) =>
+                                            //             const HomeScreen()),
+                                            //     (route) => false),
                                             formRegister.currentState!.reset()
                                           });
                                 } on FirebaseAuthException catch (err) {

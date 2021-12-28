@@ -13,7 +13,7 @@ class HomeBody extends StatefulWidget {
 
 class _HomeBodyState extends State<HomeBody> {
   final fireAuth = FirebaseAuth.instance;
-  final FirebaseFirestore fireStore = FirebaseFirestore.instance;
+  //final FirebaseFirestore fireStore = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -34,9 +34,7 @@ class _HomeBodyState extends State<HomeBody> {
           return Card(
               color: Colors.purple[50],
               child: ListTile(
-                leading: Image.asset(
-                  'assets/images/person.png',
-                ),
+                leading: Image.network(doc['urlImage']),
                 title: Text(doc['name']),
                 onTap: () {
                   Navigator.push(

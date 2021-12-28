@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RoundedDropdow extends StatelessWidget {
-  final String text;
+  final String hint;
   final String value;
   final List<DropdownMenuItem> list;
   final ValueChanged? onChanged;
@@ -10,7 +10,7 @@ class RoundedDropdow extends StatelessWidget {
       required this.value,
       required this.list,
       this.onChanged,
-      required this.text})
+      required this.hint})
       : super(key: key);
 
   @override
@@ -26,7 +26,7 @@ class RoundedDropdow extends StatelessWidget {
             value: value,
             items: list,
             onChanged: onChanged,
-            hint: Text(text, style: const TextStyle(fontSize: 18)),
+            hint: Text(hint, style: const TextStyle(fontSize: 18)),
           ),
         ),
       ),

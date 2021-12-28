@@ -13,7 +13,7 @@ import 'package:queueie/constants.dart';
 import 'package:queueie/model/profile.dart';
 import 'package:queueie/pages/home/home_screen.dart';
 import 'package:queueie/pages/login/components/background.dart';
-import 'package:queueie/pages/queuenumber/components/body.dart';
+import 'package:queueie/pages/queuenumber/queuenumber_screen.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -23,9 +23,6 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  //final fireAuth = FirebaseAuth.instance;
-  //final FirebaseFirestore fireStore = FirebaseFirestore.instance;
-
   final formLogin = GlobalKey<FormState>();
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
 
@@ -144,14 +141,15 @@ class _BodyState extends State<Body> {
                                                                     (context) =>
                                                                         const HomeScreen())),
                                                       }
-                                                    else
+                                                    else if (users.userType ==
+                                                        "shop")
                                                       {
                                                         Navigator.pushAndRemoveUntil(
                                                             context,
                                                             MaterialPageRoute(
                                                                 builder:
                                                                     (context) =>
-                                                                        const Number()),
+                                                                        const Queuenumber()),
                                                             (route) => false),
                                                       }
                                                   })

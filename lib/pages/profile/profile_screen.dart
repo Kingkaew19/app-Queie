@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:queueie/constants.dart';
 import 'package:queueie/pages/profile/components/body.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -7,12 +6,8 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Account Setting"),
-        backgroundColor: kPrimaryColor,
-      ),
-      body: const ProfileBody(),
+    return const Scaffold(
+      body: ProfileBody(),
     );
   }
 }

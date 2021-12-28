@@ -1,14 +1,20 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:queueie/components/rounded_button.dart';
+import 'package:queueie/components/rounded_dropdow.dart';
 import 'package:queueie/components/text_field_container.dart';
 import 'package:queueie/components/time_range_picker.dart';
 import 'package:queueie/model/profile.dart';
-import 'package:queueie/pages/home/home_screen.dart';
 import 'package:queueie/pages/profile/components/background.dart';
+import 'package:queueie/pages/queuenumber/queuenumber_screen.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 
 class ProfileBody extends StatefulWidget {
@@ -20,13 +26,84 @@ class ProfileBody extends StatefulWidget {
 
 class _ProfileBodyState extends State<ProfileBody> {
   final updateProfile = GlobalKey<FormState>();
+  final FirebaseFirestore fireStore = FirebaseFirestore.instance;
   Users users = Users();
   bool isLoading = false;
+
+  File? image;
+  String? urlImage;
+
+  List<String> _location = ["ตึก8", "ตึก9"];
+
+  String _select = "";
+  List<Map> location = [
+    {'id': 1, 'urlImage': 'assets/images/ตึก2.png', 'name': 'ตึก2'},
+    {'id': 2, 'urlImage': 'assets/images/ตึก3.png', 'name': 'ตึก3'},
+    {'id': 3, 'urlImage': 'assets/images/ตึก4.png', 'name': 'ตึก4'},
+    {'id': 4, 'urlImage': 'assets/images/ตึก6ล่าง.png', 'name': 'ตึก6ล่าง'},
+    {
+      'id': 5,
+      'urlImage': 'assets/images/ตึก6ห้องสมุด.png',
+      'name': 'ตึก6ห้องสมุด'
+    },
+    {'id': 6, 'urlImage': 'assets/images/ตึก7.png', 'name': 'ตึก7'},
+    {'id': 7, 'urlImage': 'assets/images/ตึก8.png', 'name': 'ตึก8'},
+    {'id': 8, 'urlImage': 'assets/images/ตึก9.png', 'name': 'ตึก9'},
+    {'id': 9, 'urlImage': 'assets/images/ตึก10.png', 'name': 'ตึก10'},
+    {'id': 10, 'urlImage': 'assets/images/ตึก12.png', 'name': 'ตึก12'},
+    {
+      'id': 11,
+      'urlImage': 'assets/images/ศูนย์บริการนศ.png',
+      'name': 'ตึก6ห้องสมุด'
+    },
+  ];
+
+  Future<void> pickImage(ImageSource imageSource) async {
+    try {
+      final Image = await ImagePicker().pickImage(source: imageSource);
+      if (Image == null) return;
+
+      final imageTemporary = File(Image.path);
+      setState(() {
+        image = imageTemporary;
+        print("image : $image");
+        isLoading = true;
+      });
+
+      upLoadImageToStorage();
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
+  Future<void> upLoadImageToStorage() async {
+    String time = DateTime.now()
+        .toString()
+        .replaceAll("-", "_")
+        .replaceAll(":", "_")
+        .replaceAll(" ", "_");
+    print('time : $time');
+
+    FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+
+    Reference reference = firebaseStorage.ref().child('shops/shop$time.jpg');
+
+    UploadTask uploadTask = reference.putFile(image!);
+    await uploadTask.then((TaskSnapshot taskSnapshot) async => {
+          await taskSnapshot.ref.getDownloadURL().then((dynamic url) => {
+                print("url : $url"),
+                urlImage = url.toString(),
+                setState(() {
+                  isLoading = false;
+                })
+              })
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: FirebaseFirestore.instance
+        stream: fireStore
             .collection('users')
             .doc(FirebaseAuth.instance.currentUser?.email)
             .snapshots(),
@@ -44,16 +121,35 @@ class _ProfileBodyState extends State<ProfileBody> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 10),
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20),
-                        child: CircleAvatar(
-                          radius: 50,
-                          backgroundImage:
-                              AssetImage('assets/images/person.png'),
+                        child: image == null
+                            ? CircleAvatar(
+                                radius: 45,
+                                backgroundImage:
+                                    NetworkImage(snapshot.data!['urlImage']),
+                              )
+                            : CircleAvatar(
+                                radius: 45,
+                                backgroundImage: FileImage(image!),
+                              )),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.deepPurple[400]),
+                            onPressed: () => pickImage(ImageSource.camera),
+                            icon: const Icon(Icons.camera_alt),
+                            label: const Text("Pick Camera")),
+                        const SizedBox(
+                          width: 20,
                         ),
-                      ),
+                        ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.deepPurple[400]),
+                            onPressed: () => pickImage(ImageSource.gallery),
+                            icon: const Icon(Icons.photo),
+                            label: const Text("Pick Gallery")),
+                      ],
                     ),
                     RoundedInputField(
                       hintText: "ชื่อ",
@@ -114,9 +210,76 @@ class _ProfileBodyState extends State<ProfileBody> {
                         setState(() => users.description = value);
                       },
                     ),
+                    // RoundedDropdow(
+                    //   value: _select,
+                    //   list: location
+                    //       .map((item) => DropdownMenuItem(
+                    //             value: item['id'],
+                    //             child: Row(
+                    //               children: [
+                    //                 Image.asset(
+                    //                   item['urlImage'],
+                    //                   width: 25,
+                    //                 ),
+                    //                 Text(item['name'])
+                    //               ],
+                    //             ),
+                    //           ))
+                    //       .toList(),
+                    //   text: "กรุณาเลือกตำแหน่งที่ตั้ง",
+                    //   onChanged: (value) {
+                    //     setState(() {
+                    //       _select = value;
+                    //     });
+                    //   },
+                    // ),
+
+                    // RoundedDropdow(
+                    //   value: _select,
+                    //   list: location
+                    //       .map((item) => DropdownMenuItem(
+                    //           child: Text(item['id']), value: item))
+                    //       .toList(),
+                    //   text: "ประเภท",
+                    //   onChanged: (value) {
+                    //     setState(() => _select = value);
+                    //   },
+                    // ),
+
+                    // DropdownButtonHideUnderline(
+                    //     child: ButtonTheme(
+                    //   alignedDropdown: true,
+                    //   child: DropdownButton(
+                    //     hint: const Text("กรุณาเลือกตำแหน่งที่ตั้ง"),
+                    //     value: _select,
+                    //     onChanged: (newValue) {
+                    //       setState(() => _select = newValue);
+                    //     },
+                    //     items: location.map((locationItem) {
+                    //       return DropdownMenuItem(
+                    //           value: locationItem['id'].toString(),
+                    //           child: Row(
+                    //             children: [
+                    //               Image.asset(
+                    //                 locationItem['image'],
+                    //                 width: 25,
+                    //               ),
+                    //               Container(
+                    //                 margin: const EdgeInsets.only(left: 10),
+                    //                 child: Text(locationItem['name']),
+                    //               )
+                    //             ],
+                    //           ));
+                    //     }),
+                    //   ),
+                    // )),
+                    // Container(
+                    //   child: Center(
+                    //       child: Image.asset(snapshot.data!['locationImage'])),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 5),
+                          vertical: 30, horizontal: 30),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -128,7 +291,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                           const SizedBox(
                             height: 5,
                           ),
-                          Image.asset('assets/images/person.png'),
+                          Image.asset(snapshot.data!['locationImage']),
                         ],
                       ),
                     ),
@@ -136,43 +299,48 @@ class _ProfileBodyState extends State<ProfileBody> {
                       text: 'บันทึก',
                       isLoading: isLoading,
                       sized: 0.47,
-                      press: () {
-                        if (updateProfile.currentState!.validate()) {
-                          updateProfile.currentState!.save();
-                          try {
-                            setState(() {
-                              isLoading = true;
-                            });
-                            FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(FirebaseAuth.instance.currentUser?.email)
-                                .update({
-                              "name": users.name,
-                              "phone": users.phone,
-                              "description": users.description,
-                              "open": users.open?.format(context),
-                              "close": users.close?.format(context),
-                              "category": users.category
-                            }).then((value) => {
-                                      Fluttertoast.showToast(
-                                          msg: "แก้ไขสำเร็จ",
-                                          gravity: ToastGravity.CENTER),
-                                      Navigator.pushAndRemoveUntil(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const HomeScreen()),
-                                          (route) => false)
-                                    });
-                          } on FirebaseAuthException catch (err) {
-                            Fluttertoast.showToast(msg: err.message!);
-                          } finally {
-                            setState(() {
-                              isLoading = false;
-                            });
-                          }
-                        }
-                      },
+                      press: isLoading
+                          ? null
+                          : () {
+                              if (updateProfile.currentState!.validate()) {
+                                updateProfile.currentState!.save();
+                                try {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  FirebaseFirestore.instance
+                                      .collection('users')
+                                      .doc(FirebaseAuth
+                                          .instance.currentUser?.email)
+                                      .update({
+                                    "name": users.name,
+                                    "phone": users.phone,
+                                    "description": users.description,
+                                    "open": users.open?.format(context),
+                                    "close": users.close?.format(context),
+                                    "category": users.category,
+                                    "urlImage": urlImage,
+                                    "locationImage": _select
+                                  }).then((value) => {
+                                            Fluttertoast.showToast(
+                                                msg: "แก้ไขสำเร็จ",
+                                                gravity: ToastGravity.CENTER),
+                                            Navigator.pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const Queuenumber()),
+                                                (route) => false)
+                                          });
+                                } on FirebaseAuthException catch (err) {
+                                  Fluttertoast.showToast(msg: err.message!);
+                                } finally {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                }
+                              }
+                            },
                     ),
                   ]),
             ),
