@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:queueie/components/rounded_button.dart';
-import 'package:queueie/pages/profileuser/profileuser_screen.dart';
 import 'package:queueie/pages/queue/components/background.dart';
+import 'package:queueie/pages/queuenumber/queuenumber_screen.dart';
 
 class QueueBody extends StatefulWidget {
   QueueBody({Key? key, required this.queue}) : super(key: key);
@@ -63,7 +63,7 @@ class _QueueBodyState extends State<QueueBody> {
             text: "ยกเลิกการจองคิว",
             press: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const ProfileuserScreen();
+                return const Queuenumber();
               }));
             },
             isLoading: false)

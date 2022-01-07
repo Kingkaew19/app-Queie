@@ -21,6 +21,7 @@ class _DetailsState extends State<Details> {
   final FirebaseFirestore fireStore = FirebaseFirestore.instance;
   Users users = Users();
 
+
   int number = 0;
   var numberSelect;
 
@@ -128,32 +129,34 @@ class _DetailsState extends State<Details> {
                       ),
                     )
                   ],
+
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+              ),
+              Container(
+                padding: const EdgeInsets.only(top: 20),
+                child: Column(
                   children: [
+                    Text(
+                      widget.doc['name'],
+                      style: const TextStyle(fontSize: 25),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Container(
                       decoration: BoxDecoration(
-                          color: Colors.purple[100],
+                          color: Colors.purple[50],
                           borderRadius: BorderRadius.circular(10)),
                       height: 40,
-                      width: 280,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            widget.doc['open'],
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                          const Text("-", style: TextStyle(fontSize: 20)),
-                          Text(widget.doc['close'],
-                              style: const TextStyle(fontSize: 20))
-                        ],
+                      width: 210,
+                      child: Center(
+                        child: Text(widget.doc['phone'],
+                            style: TextStyle(fontSize: 20)),
                       ),
                     ),
                   ],
                 ),
+
                 Container(
                   padding: const EdgeInsets.only(top: 20),
                   child: Column(
@@ -178,25 +181,40 @@ class _DetailsState extends State<Details> {
                     ],
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("ตำแหน่ง", style: TextStyle(fontSize: 20)),
-                      Card(
-                        child: Image.asset(
-                          'assets/images/person.png',
-                          height: 260,
-                          width: 350,
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 80, right: 80),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 90,
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.purple[100],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
-                    ],
-                  ),
+                      child: const Text("โทร",
+                          style: TextStyle(fontSize: 20, color: Colors.black)),
+                      onPressed: () async {
+                        const Url = 'tel:+ 089 415 0834';
+                        if (await canLaunch(Url)) {
+                          await launch(Url);
+                        } else {
+                          throw 'Could not launch $Url';
+                        }
+                      }),
                 ),
                 const SizedBox(
-                  height: 15,
+                  width: 50,
                 ),
+
                 Padding(
                   padding: const EdgeInsets.only(left: 80, right: 80),
                   child: Row(
@@ -255,13 +273,21 @@ class _DetailsState extends State<Details> {
                                   .catchError((error) => {print(error)});
                             }),
                       ),
-                    ],
-                  ),
+                      child: const Text("จองคิว",
+                          style: TextStyle(fontSize: 20, color: Colors.black)),
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return const QueueBody(dataQueue: {},);
+                        }));
+                      }),
                 ),
               ],
             ),
-          ));
-        });
+          ),
+        ],
+      ),
+    ));
   }
 
   getLength(var data) {
