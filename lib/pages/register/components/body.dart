@@ -10,6 +10,7 @@ import 'package:queueie/components/rounded_password_field.dart';
 import 'package:queueie/components/text_field_container.dart';
 import 'package:queueie/constants.dart';
 import 'package:queueie/model/profile.dart';
+import 'package:queueie/pages/queuenumber/components/body.dart';
 import 'package:queueie/pages/queuenumber/queuenumber_screen.dart';
 import 'package:queueie/pages/register/components/background.dart';
 import 'package:queueie/pages/home/home_screen.dart';
@@ -30,7 +31,6 @@ class _BodyState extends State<Body> {
   bool isLoading = false;
   String chooseType = 'Choose Type';
   List<String> type = ['Choose Type', 'shop', 'user'];
-  //final snackbar = const SnackBar(content: Text('Please choose type!!!'));
 
   @override
   Widget build(BuildContext context) {
@@ -126,94 +126,85 @@ class _BodyState extends State<Body> {
                             press: () async {
                               if (formRegister.currentState!.validate()) {
                                 formRegister.currentState!.save();
-                                try {
-                                  final snackbar = const SnackBar(
-                                      content: Text('Please choose type!!!'));
-                                  setState(() => isLoading = true);
-                                  await FirebaseAuth.instance
-                                      .createUserWithEmailAndPassword(
-                                          email: users.email!,
-                                          password: users.password!)
-                                      .then((value) => {
-                                            if (chooseType == 'Choose Type')
-                                              {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(snackbar),
-                                                print(chooseType)
-                                              }
-                                            else if (chooseType == 'user')
-                                              {
-                                                FirebaseFirestore.instance
-                                                    .collection('users')
-                                                    .doc(users.email)
-                                                    .set({
-                                                      "name": users.name,
-                                                      "email": users.email,
-                                                      "phone": users.phone,
-                                                      "userType": chooseType
-                                                    })
-                                                    .then(
-                                                      (value) => Navigator
-                                                          .pushAndRemoveUntil(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          const HomeScreen()),
-                                                              (route) => false),
-                                                    )
-                                                    .catchError((error) =>
-                                                        Fluttertoast.showToast(
-                                                            msg: error,
-                                                            gravity:
-                                                                ToastGravity
-                                                                    .CENTER))
-                                              }
-                                            else if (chooseType == 'shop')
-                                              {
-                                                FirebaseFirestore.instance
-                                                    .collection('shops')
-                                                    .doc(users.email)
-                                                    .set({
-                                                      "name": users.name,
-                                                      "email": users.email,
-                                                      "phone": users.phone,
-                                                      "userType": chooseType
-                                                    })
-                                                    .then(
-                                                      (value) => Navigator
-                                                          .pushAndRemoveUntil(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          const Queuenumber()),
-                                                              (route) => false),
-                                                    )
-                                                    .catchError((error) =>
-                                                        Fluttertoast.showToast(
-                                                            msg: error,
-                                                            gravity:
-                                                                ToastGravity
-                                                                    .CENTER))
-                                              },
-                                            // Fluttertoast.showToast(
-                                            //     msg: "สร้างบัญชีสำเร็จ",
-                                            //     gravity: ToastGravity.TOP),
-                                            // Navigator.pushAndRemoveUntil(
-                                            //     context,
-                                            //     MaterialPageRoute(
-                                            //         builder: (context) =>
-                                            //             const HomeScreen()),
-                                            //     (route) => false),
-                                            formRegister.currentState!.reset()
-                                          });
-                                } on FirebaseAuthException catch (err) {
+
+                                if (chooseType == 'user') {
+                                  try {
+                                    await FirebaseAuth.instance
+                                        .createUserWithEmailAndPassword(
+                                            email: users.email!,
+                                            password: users.password!)
+                                        .then((value) => FirebaseFirestore
+                                            .instance
+                                            .collection('users')
+                                            .doc(users.email)
+                                            .set({
+                                              "name": users.name,
+                                              "email": users.email,
+                                              "phone": users.phone,
+                                              "userType": chooseType
+                                            })
+                                            .then(
+                                              (value) =>
+                                                  Navigator.pushAndRemoveUntil(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const HomeScreen()),
+                                                      (route) => false),
+                                            )
+                                            .catchError((error) =>
+                                                Fluttertoast.showToast(
+                                                    msg: error,
+                                                    gravity:
+                                                        ToastGravity.CENTER)));
+                                  } on FirebaseAuthException catch (err) {
+                                    Fluttertoast.showToast(
+                                        msg: err.message!,
+                                        gravity: ToastGravity.TOP);
+                                  } finally {
+                                    setState(() => isLoading = false);
+                                  }
+                                } else if (chooseType == 'shops') {
+                                  try {
+                                    await FirebaseAuth.instance
+                                        .createUserWithEmailAndPassword(
+                                            email: users.email!,
+                                            password: users.password!)
+                                        .then((value) => FirebaseFirestore
+                                            .instance
+                                            .collection('shops')
+                                            .doc(users.email)
+                                            .set({
+                                              "name": users.name,
+                                              "email": users.email,
+                                              "phone": users.phone,
+                                              "userType": chooseType
+                                            })
+                                            .then(
+                                              (value) =>
+                                                  Navigator.pushAndRemoveUntil(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const Queuenumber()),
+                                                      (route) => false),
+                                            )
+                                            .catchError((error) =>
+                                                Fluttertoast.showToast(
+                                                    msg: error,
+                                                    gravity:
+                                                        ToastGravity.CENTER)));
+                                  } on FirebaseAuthException catch (err) {
+                                    Fluttertoast.showToast(
+                                        msg: err.message!,
+                                        gravity: ToastGravity.TOP);
+                                  } finally {
+                                    setState(() => isLoading = false);
+                                  }
+                                } else {
                                   Fluttertoast.showToast(
-                                      msg: err.message!,
-                                      gravity: ToastGravity.TOP);
-                                } finally {
-                                  setState(() => isLoading = false);
+                                      msg: "Please choose type",
+                                      gravity: ToastGravity.CENTER);
                                 }
                               }
                             })

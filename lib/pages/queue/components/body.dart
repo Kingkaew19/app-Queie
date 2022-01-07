@@ -3,9 +3,14 @@ import 'package:queueie/components/rounded_button.dart';
 import 'package:queueie/pages/profileuser/profileuser_screen.dart';
 import 'package:queueie/pages/queue/components/background.dart';
 
-class QueueBody extends StatelessWidget {
-  const QueueBody({Key? key}) : super(key: key);
+class QueueBody extends StatefulWidget {
+  QueueBody({Key? key, required this.queue}) : super(key: key);
+  final queue;
+  @override
+  State<QueueBody> createState() => _QueueBodyState();
+}
 
+class _QueueBodyState extends State<QueueBody> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -24,9 +29,9 @@ class QueueBody extends StatelessWidget {
                 child: SizedBox(
                   width: size.width * 0.65,
                   height: size.height * 0.20,
-                  child: const Center(
+                  child: Center(
                       child: Text(
-                    "19",
+                    widget.queue,
                     style: TextStyle(fontSize: 60),
                   )),
                 ),

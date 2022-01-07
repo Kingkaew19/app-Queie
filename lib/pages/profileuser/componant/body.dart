@@ -46,6 +46,30 @@ class _bodyProfileuserState extends State<bodyProfileuser> {
     }
   }
 
+  Future<void> upLoadImageToStorage() async {
+    String time = DateTime.now()
+        .toString()
+        .replaceAll("-", "_")
+        .replaceAll(":", "_")
+        .replaceAll(" ", "_");
+    print('time : $time');
+
+    FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+
+    Reference reference = firebaseStorage.ref().child('users/user$time.jpg');
+
+    UploadTask uploadTask = reference.putFile(image!);
+    await uploadTask.then((TaskSnapshot taskSnapshot) async => {
+          await taskSnapshot.ref.getDownloadURL().then((dynamic url) => {
+                print("url : $url"),
+                urlImage = url.toString(),
+                setState(() {
+                  isLoading = false;
+                })
+              })
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -68,11 +92,17 @@ class _bodyProfileuserState extends State<bodyProfileuser> {
                 children: [
                   Container(
                       child: image == null
-                          ? CircleAvatar(
-                              radius: 45,
-                              backgroundImage:
-                                  NetworkImage(snapshot.data!['urlImage']),
-                            )
+                          ? snapshot.data!['urlImage'] == null
+                              ? const CircleAvatar(
+                                  radius: 45,
+                                  backgroundImage: NetworkImage(
+                                      'https://firebasestorage.googleapis.com/v0/b/queueie.appspot.com/o/users%2Fperson.png?alt=media&token=184d240d-884a-4693-9c6a-01d8974f1ab2'),
+                                )
+                              : CircleAvatar(
+                                  radius: 45,
+                                  backgroundImage:
+                                      NetworkImage(snapshot.data!['urlImage']),
+                                )
                           : CircleAvatar(
                               radius: 45,
                               backgroundImage: FileImage(image!),
@@ -162,30 +192,6 @@ class _bodyProfileuserState extends State<bodyProfileuser> {
               ),
             ),
           ));
-        });
-  }
-
-  Future<void> upLoadImageToStorage() async {
-    String time = DateTime.now()
-        .toString()
-        .replaceAll("-", "_")
-        .replaceAll(":", "_")
-        .replaceAll(" ", "_");
-    print('time : $time');
-
-    FirebaseStorage firebaseStorage = FirebaseStorage.instance;
-
-    Reference reference = firebaseStorage.ref().child('users/user$time.jpg');
-
-    UploadTask uploadTask = reference.putFile(image!);
-    await uploadTask.then((TaskSnapshot taskSnapshot) async => {
-          await taskSnapshot.ref.getDownloadURL().then((dynamic url) => {
-                print("url : $url"),
-                urlImage = url.toString(),
-                setState(() {
-                  isLoading = false;
-                })
-              })
         });
   }
 }
