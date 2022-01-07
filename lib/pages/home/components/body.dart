@@ -13,7 +13,7 @@ class HomeBody extends StatefulWidget {
 
 class _HomeBodyState extends State<HomeBody> {
   final fireAuth = FirebaseAuth.instance;
-  //final FirebaseFirestore fireStore = FirebaseFirestore.instance;
+  
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(

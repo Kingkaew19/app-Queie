@@ -36,11 +36,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 users.name = value.data()?["name"];
                 users.phone = value.data()?["phone"];
                 users.userType = value.data()?["userType"];
+                users.urlImage = value.data()?["urlImage"];
               }),
             });
     final tabs = [
       const HomeBody(),
-      QueueScreen(dataQueue: {},),
+      QueueBody(
+        queue: 0,
+      ),
     ];
     String title = 'Home';
     return Scaffold(
@@ -73,8 +76,10 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             UserAccountsDrawerHeader(
                 currentAccountPicture: CircleAvatar(
-                  backgroundImage: NetworkImage('${users.urlImage}'),
-                ),
+                    backgroundImage: users.urlImage == null
+                        ? const NetworkImage(
+                            'https://firebasestorage.googleapis.com/v0/b/queueie.appspot.com/o/users%2Fperson.png?alt=media&token=184d240d-884a-4693-9c6a-01d8974f1ab2')
+                        : NetworkImage('${users.urlImage}')),
                 accountName: Text(
                   '${users.name}',
                   style: const TextStyle(fontSize: 22),

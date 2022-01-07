@@ -3,8 +3,8 @@ import 'package:queueie/constants.dart';
 import 'package:queueie/pages/queue/components/body.dart';
 
 class QueueScreen extends StatefulWidget {
-  const QueueScreen({Key? key, required this.dataQueue}) : super(key: key);
-  final Map<String, dynamic> dataQueue;
+  QueueScreen({Key? key, required this.queue}) : super(key: key);
+  final queue;
 
   @override
   State<QueueScreen> createState() => _QueueScreenState();
@@ -18,7 +18,9 @@ class _QueueScreenState extends State<QueueScreen> {
         title: const Text("Queue page"),
         backgroundColor: kPrimaryColor,
       ),
-      body:  QueueBody(dataQueue: widget.dataQueue),
+      body: QueueBody(
+        queue: widget.queue,
+      ),
     );
   }
 }

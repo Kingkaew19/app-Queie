@@ -33,10 +33,13 @@ class _ProfileBodyState extends State<ProfileBody> {
   File? image;
   String? urlImage;
 
-  List<String> _location = ["ตึก8", "ตึก9"];
-
-  String _select = "";
+  String select = "กรุณาเลือกตำแหน่งที่ตั้ง";
   List<Map> location = [
+    {
+      'id': 0,
+      'urlImage': 'assets/images/mapDPU.jpg',
+      'name': 'กรุณาเลือกตำแหน่งที่ตั้ง'
+    },
     {'id': 1, 'urlImage': 'assets/images/ตึก2.png', 'name': 'ตึก2'},
     {'id': 2, 'urlImage': 'assets/images/ตึก3.png', 'name': 'ตึก3'},
     {'id': 3, 'urlImage': 'assets/images/ตึก4.png', 'name': 'ตึก4'},
@@ -122,11 +125,17 @@ class _ProfileBodyState extends State<ProfileBody> {
                   children: [
                     Container(
                         child: image == null
-                            ? CircleAvatar(
-                                radius: 45,
-                                backgroundImage:
-                                    NetworkImage(snapshot.data!['urlImage']),
-                              )
+                            ? snapshot.data!['urlImage'] == null
+                                ? const CircleAvatar(
+                                    radius: 45,
+                                    backgroundImage: NetworkImage(
+                                        'https://firebasestorage.googleapis.com/v0/b/queueie.appspot.com/o/users%2Fperson.png?alt=media&token=184d240d-884a-4693-9c6a-01d8974f1ab2'),
+                                  )
+                                : CircleAvatar(
+                                    radius: 45,
+                                    backgroundImage: NetworkImage(
+                                        snapshot.data!['urlImage']),
+                                  )
                             : CircleAvatar(
                                 radius: 45,
                                 backgroundImage: FileImage(image!),
@@ -211,7 +220,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                       },
                     ),
                     // RoundedDropdow(
-                    //   value: _select,
+                    //   value: select,
                     //   list: location
                     //       .map((item) => DropdownMenuItem(
                     //             value: item['id'],
@@ -226,56 +235,14 @@ class _ProfileBodyState extends State<ProfileBody> {
                     //             ),
                     //           ))
                     //       .toList(),
-                    //   text: "กรุณาเลือกตำแหน่งที่ตั้ง",
+                    //   hint: "กรุณาเลือกตำแหน่งที่ตั้ง",
                     //   onChanged: (value) {
                     //     setState(() {
-                    //       _select = value;
+                    //       print(select);
+                    //       select = value;
+                    //       print(select);
                     //     });
                     //   },
-                    // ),
-
-                    // RoundedDropdow(
-                    //   value: _select,
-                    //   list: location
-                    //       .map((item) => DropdownMenuItem(
-                    //           child: Text(item['id']), value: item))
-                    //       .toList(),
-                    //   text: "ประเภท",
-                    //   onChanged: (value) {
-                    //     setState(() => _select = value);
-                    //   },
-                    // ),
-
-                    // DropdownButtonHideUnderline(
-                    //     child: ButtonTheme(
-                    //   alignedDropdown: true,
-                    //   child: DropdownButton(
-                    //     hint: const Text("กรุณาเลือกตำแหน่งที่ตั้ง"),
-                    //     value: _select,
-                    //     onChanged: (newValue) {
-                    //       setState(() => _select = newValue);
-                    //     },
-                    //     items: location.map((locationItem) {
-                    //       return DropdownMenuItem(
-                    //           value: locationItem['id'].toString(),
-                    //           child: Row(
-                    //             children: [
-                    //               Image.asset(
-                    //                 locationItem['image'],
-                    //                 width: 25,
-                    //               ),
-                    //               Container(
-                    //                 margin: const EdgeInsets.only(left: 10),
-                    //                 child: Text(locationItem['name']),
-                    //               )
-                    //             ],
-                    //           ));
-                    //     }),
-                    //   ),
-                    // )),
-                    // Container(
-                    //   child: Center(
-                    //       child: Image.asset(snapshot.data!['locationImage'])),
                     // ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -291,7 +258,7 @@ class _ProfileBodyState extends State<ProfileBody> {
                           const SizedBox(
                             height: 5,
                           ),
-                          Image.asset(snapshot.data!['locationImage']),
+                          //Image.file(select['urlImage']),
                         ],
                       ),
                     ),
@@ -319,8 +286,9 @@ class _ProfileBodyState extends State<ProfileBody> {
                                     "open": users.open?.format(context),
                                     "close": users.close?.format(context),
                                     "category": users.category,
+
                                     "urlImage": urlImage,
-                                    "locationImage": _select
+                                    //"locationImage": select
                                   }).then((value) => {
                                             Fluttertoast.showToast(
                                                 msg: "แก้ไขสำเร็จ",

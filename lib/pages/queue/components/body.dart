@@ -4,8 +4,8 @@ import 'package:queueie/pages/queue/components/background.dart';
 import 'package:queueie/pages/queuenumber/queuenumber_screen.dart';
 
 class QueueBody extends StatefulWidget {
-  const QueueBody({Key? key, required this.dataQueue}) : super(key: key);
-   final Map<String, dynamic> dataQueue;
+  QueueBody({Key? key, required this.queue}) : super(key: key);
+  final queue;
   @override
   State<QueueBody> createState() => _QueueBodyState();
 }
@@ -29,9 +29,9 @@ class _QueueBodyState extends State<QueueBody> {
                 child: SizedBox(
                   width: size.width * 0.65,
                   height: size.height * 0.20,
-                  child:  Center(
+                  child: Center(
                       child: Text(
-                    widget.dataQueue['number'],
+                    widget.queue,
                     style: TextStyle(fontSize: 60),
                   )),
                 ),
