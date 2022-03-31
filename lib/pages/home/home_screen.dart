@@ -8,7 +8,6 @@ import 'package:queueie/pages/home/components/body.dart';
 import 'package:queueie/pages/notification/notification_screen.dart';
 import 'package:queueie/pages/profileuser/profileuser_screen.dart';
 import 'package:queueie/pages/queue/components/body.dart';
-import 'package:queueie/pages/queue/queue_screen.dart';
 import 'package:queueie/pages/welcome/welcome_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -130,10 +129,11 @@ class _HomeScreenState extends State<HomeScreen> {
               if (index == 1) {
                 title = 'Home';
                 print('change');
-              } else {
-                title = 'Queue';
-                print('change');
               }
+              //  else {
+              //   title = 'Queue';
+              //   print('change');
+              // }
             });
           },
         ));
@@ -217,3 +217,7 @@ class CustomSearchDelegate extends SearchDelegate {
     );
   }
 }
+
+
+
+  

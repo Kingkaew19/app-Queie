@@ -31,7 +31,7 @@ class _QueueBodyState extends State<QueueBody> {
                   height: size.height * 0.20,
                   child: Center(
                       child: Text(
-                    widget.queue,
+                    widget.queue.toString(),
                     style: TextStyle(fontSize: 60),
                   )),
                 ),
