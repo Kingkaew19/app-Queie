@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:queueie/components/rounded_button.dart';
-import 'package:queueie/pages/profileuser/profileuser_screen.dart';
 import 'package:queueie/pages/queue/components/background.dart';
+import 'package:queueie/pages/queuenumber/queuenumber_screen.dart';
 
 class QueueBody extends StatefulWidget {
   QueueBody({Key? key, required this.queue}) : super(key: key);
@@ -31,7 +31,7 @@ class _QueueBodyState extends State<QueueBody> {
                   height: size.height * 0.20,
                   child: Center(
                       child: Text(
-                    widget.queue,
+                    widget.queue.toString(),
                     style: TextStyle(fontSize: 60),
                   )),
                 ),
@@ -39,31 +39,31 @@ class _QueueBodyState extends State<QueueBody> {
             ],
           ),
         ),
-        Container(
-          padding: const EdgeInsets.only(top: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text("จำนวนคิวที่รอ", style: TextStyle(fontSize: 20)),
-              Card(
-                child: SizedBox(
-                  width: size.width * 0.45,
-                  height: size.height * 0.10,
-                  child: const Center(
-                      child: Text(
-                    "19",
-                    style: TextStyle(fontSize: 35),
-                  )),
-                ),
-              )
-            ],
-          ),
-        ),
+        // Container(
+        //   padding: const EdgeInsets.only(top: 20),
+        //   child: Column(
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: [
+        //       const Text("จำนวนคิวที่รอ", style: TextStyle(fontSize: 20)),
+        //       Card(
+        //         child: SizedBox(
+        //           width: size.width * 0.45,
+        //           height: size.height * 0.10,
+        //           child: const Center(
+        //               child: Text(
+        //             "19",
+        //             style: TextStyle(fontSize: 35),
+        //           )),
+        //         ),
+        //       )
+        //     ],
+        //   ),
+        // ),
         RoundedButton(
             text: "ยกเลิกการจองคิว",
             press: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const ProfileuserScreen();
+                return const Queuenumber();
               }));
             },
             isLoading: false)

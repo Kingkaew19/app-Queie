@@ -92,17 +92,11 @@ class _bodyProfileuserState extends State<bodyProfileuser> {
                 children: [
                   Container(
                       child: image == null
-                          ? snapshot.data!['urlImage'] == null
-                              ? const CircleAvatar(
-                                  radius: 45,
-                                  backgroundImage: NetworkImage(
-                                      'https://firebasestorage.googleapis.com/v0/b/queueie.appspot.com/o/users%2Fperson.png?alt=media&token=184d240d-884a-4693-9c6a-01d8974f1ab2'),
-                                )
-                              : CircleAvatar(
-                                  radius: 45,
-                                  backgroundImage:
-                                      NetworkImage(snapshot.data!['urlImage']),
-                                )
+                          ? const CircleAvatar(
+                              radius: 45,
+                              backgroundImage: NetworkImage(
+                                  'https://firebasestorage.googleapis.com/v0/b/queueie.appspot.com/o/users%2Fperson.png?alt=media&token=184d240d-884a-4693-9c6a-01d8974f1ab2%27'),
+                            )
                           : CircleAvatar(
                               radius: 45,
                               backgroundImage: FileImage(image!),

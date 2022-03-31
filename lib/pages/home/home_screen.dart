@@ -129,10 +129,11 @@ class _HomeScreenState extends State<HomeScreen> {
               if (index == 1) {
                 title = 'Home';
                 print('change');
-              } else {
-                title = 'Queue';
-                print('change');
               }
+              //  else {
+              //   title = 'Queue';
+              //   print('change');
+              // }
             });
           },
         ));
@@ -216,3 +217,7 @@ class CustomSearchDelegate extends SearchDelegate {
     );
   }
 }
+
+
+
+  
