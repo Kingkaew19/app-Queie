@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,9 @@ class Number extends StatefulWidget {
 class _NumberState extends State<Number> {
   //final FirebaseFirestore fireStore = FirebaseFirestore.instance;
   //DatabaseReference ref = FirebaseDatabase.instance.ref();
-  final databaseRef = FirebaseDatabase.instance.ref().child("Momo");
+
+  final firebaseAuth = FirebaseAuth.instance;
+  final databaseRef = FirebaseDatabase.instance.ref().child("Momo"); // firebaseAuth.currentUser?.displayName
 
   @override
   Widget build(BuildContext context) {
@@ -55,14 +58,13 @@ class _NumberState extends State<Number> {
                               query: databaseRef,
                               itemBuilder: (BuildContext context, DataSnapshot snapshot,
                                   Animation<double> animation, int index) {
-
-                                var x = snapshot.value?['name'];
-                                print(x);
+                                var _tmp = snapshot.value as Map;
 
                                 return ListTile(
-                                  title: Text(snapshot.value?['user']]),
-                                  subtitle: Text(snapshot.value?['name']),
-                                );
+                                  title: Text(_tmp['queue']), // snapshot.value?['user']
+                                  subtitle: Text(_tmp['user']), 
+                                  trailing: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_forward),// snapshot.value?['name']
+                                ));
 
                   // return Card(
                   //   child: Column(children: [

@@ -164,7 +164,7 @@ class _BodyState extends State<Body> {
                                   } finally {
                                     setState(() => isLoading = false);
                                   }
-                                } else if (chooseType == 'shops') {
+                                } else if (chooseType == 'shop') {
                                   try {
                                     await FirebaseAuth.instance
                                         .createUserWithEmailAndPassword(
@@ -172,7 +172,7 @@ class _BodyState extends State<Body> {
                                             password: users.password!)
                                         .then((value) => FirebaseFirestore
                                             .instance
-                                            .collection('shops')
+                                            .collection('users')
                                             .doc(users.email)
                                             .set({
                                               "name": users.name,
